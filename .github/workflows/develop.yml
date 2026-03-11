@@ -29,5 +29,10 @@ jobs:
       - name: Run a one-line script
         run: echo "I am on release pipeline"
 
-      - name: Run a docker command
-        run: docker run hello-world
+      - name: Generate PDF docs using Pandoc
+        run: |
+          docker run --rm \
+            --volume "${{ github.workspace }}:/data" \
+            --user $(id -u):$(id -g) \
+            --workdir /data \
+            pandoc/latex README.md -o docs.pdf
