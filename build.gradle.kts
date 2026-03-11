@@ -1,5 +1,6 @@
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "4.0.3"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -12,6 +13,20 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+jacoco {
+    toolVersion = "0.8.12" 
+}
+
+tasks.jacocoTestReport {
+    // Ensure tests run before the report is generated
+    dependsOn(tasks.test) 
+    
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
 
 repositories {
