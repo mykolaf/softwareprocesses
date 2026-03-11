@@ -34,3 +34,6 @@ jobs:
 
       - name: Run Gradle tests
         run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle test
+
+      - name: Build bootJar
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle bootJar
