@@ -77,5 +77,12 @@ jobs:
             --workdir /data \
             pandoc/latex README.md -o docs.pdf
 
+      - name: Upload PDF Doc
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs.pdf
+          path: ${{ github.workspace }}/docs.pdf
+          retention-days: 30
+
       - name: List output
         run: ls
