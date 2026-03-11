@@ -41,6 +41,9 @@ jobs:
       - name: Gradle jar
         run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle jar
 
+      - name: Export dependencies
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle dependencies
+
       - name: Generate PDF docs using Pandoc
         run: |
           docker run --rm \
