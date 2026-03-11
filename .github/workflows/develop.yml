@@ -35,6 +35,9 @@ jobs:
       - name: Run Gradle tests
         run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle test
 
+      - name: Gradle jar
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle jar
+
       - name: Generate PDF docs using Pandoc
         run: |
           docker run --rm \
@@ -42,3 +45,6 @@ jobs:
             --user $(id -u):$(id -g) \
             --workdir /data \
             pandoc/latex README.md -o docs.pdf
+
+      - name: List output
+        run: ls
