@@ -29,5 +29,7 @@ jobs:
       - name: Run a one-line script
         run: echo "I am on release pipeline"
 
-      - name: Run a docker command
-        run: docker run hello-world
+      - name: Build the project with gradle
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build dhi.io/gradle:latest build
+
+
