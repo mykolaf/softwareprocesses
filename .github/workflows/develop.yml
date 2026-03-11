@@ -37,3 +37,11 @@ jobs:
 
       - name: Build bootJar
         run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle bootJar
+
+      - name: Generate PDF docs using Pandoc
+        run: |
+          docker run --rm \
+            --volume "${{ github.workspace }}:/data" \
+            --user $(id -u):$(id -g) \
+            --workdir /data \
+            pandoc/latex README.md -o docs.pdf
