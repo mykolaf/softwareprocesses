@@ -32,9 +32,6 @@ jobs:
       - name: Build the project with gradle
         run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle build
 
-      - name: Run Gradle tests
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle test
-
       - name: Build bootJar
         run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle bootJar
 
@@ -43,6 +40,34 @@ jobs:
 
       - name: Export dependencies
         run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle dependencies
+
+      - name: Run Gradle tests
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle test
+
+      - name: Run JaCoCo test report
+        run: |
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v "${{ github.workspace }}:/build" \
+            -w /build \
+            gradle:8-jdk21 \
+            gradle build test jacocoTestReport
+
+      - name: Add JaCoCo Report to PR
+        uses: madrapps/jacoco-report@v1.7.1
+        with:
+          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.TOKEN }}
+          min-coverage-overall: 60
+          title: "Code Coverage Report"
+          update-comment: true
+
+      - name: Upload JaCoCo HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-html-report
+          path: ${{ github.workspace }}/build/reports/jacoco/test/html/
+          retention-days: 30
 
       - name: Generate PDF docs using Pandoc
         run: |
