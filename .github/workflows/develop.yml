@@ -30,19 +30,19 @@ jobs:
         run: echo "I am on develop pipeline"
 
       - name: Build the project with gradle
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle build
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.14-jdk21 gradle build -Dorg.gradle.native=false
 
       - name: Build bootJar
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle bootJar
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.14-jdk21 gradle bootJar -Dorg.gradle.native=false
 
       - name: Gradle jar
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle jar
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.14-jdk21 gradle jar -Dorg.gradle.native=false
 
       - name: Export dependencies
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle dependencies
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.14-jdk21 gradle dependencies -Dorg.gradle.native=false
 
       - name: Run Gradle tests
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle test
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.14-jdk21 gradle test -Dorg.gradle.native=false
 
       - name: Run JaCoCo test report
         run: |
@@ -50,8 +50,8 @@ jobs:
             -u "$(id -u):$(id -g)" \
             -v "${{ github.workspace }}:/build" \
             -w /build \
-            gradle:8-jdk21 \
-            gradle build test jacocoTestReport
+            gradle:8.14-jdk21 \
+            gradle build test jacocoTestReport -Dorg.gradle.native=false
 
       - name: Add JaCoCo Report to PR
         uses: madrapps/jacoco-report@v1.7.1
