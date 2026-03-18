@@ -30,19 +30,19 @@ jobs:
         run: echo "I am on develop pipeline"
 
       - name: Build the project with gradle
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle build
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.12-jdk21 gradle build
 
       - name: Build bootJar
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle bootJar
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.12-jdk21 gradle bootJar
 
       - name: Gradle jar
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle jar
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.12-jdk21 gradle jar
 
       - name: Export dependencies
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle dependencies
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.12-jdk21 gradle dependencies
 
       - name: Run Gradle tests
-        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8-jdk21 gradle test
+        run: docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)":/build -w /build gradle:8.12-jdk21 gradle test
 
       - name: Run JaCoCo test report
         run: |
@@ -50,7 +50,7 @@ jobs:
             -u "$(id -u):$(id -g)" \
             -v "${{ github.workspace }}:/build" \
             -w /build \
-            gradle:8-jdk21 \
+            gradle:8.12-jdk21 \
             gradle build test jacocoTestReport
 
       - name: Add JaCoCo Report to PR
