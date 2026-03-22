@@ -95,11 +95,11 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run app from local registry
         run: |
-          docker pull ${{ vars.REGISTRY }}/app:latest
+          docker pull ${{ env.REGISTRY }}/app:latest
           docker stop app || true
           docker rm app || true
           docker run -d \
             --name app \
             --restart unless-stopped \
             -p 8085:8080 \
-            ${{ vars.REGISTRY }}/app:latest
+            ${{ env.REGISTRY }}/app:latest
