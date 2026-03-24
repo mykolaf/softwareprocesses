@@ -1,10 +1,10 @@
 .git
 .gradle
 .idea
-build
 bin
 out
 *.class
-*.jar
+build/*
+!build/libs/*.jar
 *.war
 .github
