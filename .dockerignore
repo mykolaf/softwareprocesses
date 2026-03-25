@@ -1,0 +1,10 @@
+.git
+.gradle
+.idea
+bin
+out
+*.class
+build/*
+!build/libs/*.jar
+*.war
+.github
